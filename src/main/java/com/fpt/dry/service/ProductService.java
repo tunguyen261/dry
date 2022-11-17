@@ -17,7 +17,8 @@ public class ProductService {
     private final ProductMapper productMapper;
 
     public Product findById(Long id) {
-        return productRepository.findById(id).orElseThrow(() -> new RuntimeException("Not found any product with id " + id));
+        return productRepository.findById(id).orElseThrow(() ->
+                new RuntimeException("Not found any product with id " + id));
     }
 
     public List<Product> findALlProducts() {

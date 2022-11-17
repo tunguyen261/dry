@@ -16,7 +16,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "NVARCHAR(20)", nullable = false)
+    @Column(columnDefinition = "NVARCHAR(40)", nullable = false)
     private String title;
 
     @Column(columnDefinition = "DECIMAL(12, 4)", nullable = false)

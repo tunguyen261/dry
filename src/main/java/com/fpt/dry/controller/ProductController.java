@@ -12,15 +12,21 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/v1/products")
+@RequestMapping("/api/v1/products")
 public class ProductController {
 
     private final ProductService productService;
 
     @GetMapping
-    public ResponseEntity<List<Product>> getALl() {
+    public ResponseEntity<List<Product>> getAll() {
         List<Product> response = productService.findALlProducts();
 
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<Product> findById(@PathVariable("id") Long id){
+        Product response = productService.findById(id);
         return ResponseEntity.ok(response);
     }
 
