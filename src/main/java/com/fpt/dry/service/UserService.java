@@ -9,16 +9,20 @@ import com.fpt.dry.object.entity.User;
 import com.fpt.dry.repository.RoleRepository;
 import com.fpt.dry.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
 import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final UserMapper userMapper;
 
 //    public User findUser(String username){
@@ -28,11 +32,11 @@ public class UserService {
 
     public User createUser(UserRequest request){
         User entity= userMapper.mapCreateRequestToEntity(request);
-//        entity.setRoles(Collections.singleton(new Role(SystemRole.USER)));
-
-//        entity.setRoles();
-
+        Role userRole = roleRepository.findRoleByName(SystemRole.USER);
+        entity.setRoles(Collections.singleton(userRole));
         return userRepository.save(entity);
     }
+
+
 
 }

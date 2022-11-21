@@ -6,10 +6,7 @@ import com.fpt.dry.object.entity.User;
 import com.fpt.dry.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -24,5 +21,10 @@ public class UserController {
         User response = userService.createUser(request);
         return ResponseEntity.ok(response);
     }
+
+//    @DeleteMapping("{id}")
+//    public ResponseEntity<User> deleteUser(@PathVariable Long id){
+//
+//    }
 
 }
