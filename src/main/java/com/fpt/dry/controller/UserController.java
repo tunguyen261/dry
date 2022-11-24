@@ -1,8 +1,9 @@
 package com.fpt.dry.controller;
 
 
+import com.fpt.dry.object.dto.mapper.UserMapper;
 import com.fpt.dry.object.dto.request.UserRequest;
-import com.fpt.dry.object.entity.User;
+import com.fpt.dry.object.dto.response.UserResponse;
 import com.fpt.dry.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,15 +17,19 @@ import javax.validation.Valid;
 public class UserController {
 
     private final UserService userService;
+    private final UserMapper userMapper;
+
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody @Valid UserRequest request){
-        User response = userService.createUser(request);
+    public ResponseEntity<UserResponse> createUser(@RequestBody @Valid UserRequest request) {
+        UserResponse response = userMapper.mapUserToResponse(userService.createUser(request));
         return ResponseEntity.ok(response);
     }
 
-//    @DeleteMapping("{id}")
-//    public ResponseEntity<User> deleteUser(@PathVariable Long id){
-//
-//    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id){
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
+    }
 
 }

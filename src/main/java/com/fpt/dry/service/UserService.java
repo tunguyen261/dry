@@ -6,30 +6,31 @@ import com.fpt.dry.object.dto.mapper.UserMapper;
 import com.fpt.dry.object.dto.request.UserRequest;
 import com.fpt.dry.object.entity.Role;
 import com.fpt.dry.object.entity.User;
+import com.fpt.dry.object.model.SecurityUserDetails;
 import com.fpt.dry.repository.RoleRepository;
 import com.fpt.dry.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
 import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final UserMapper userMapper;
 
-//    public User findUser(String username){
-//        return userRepository.findByUsername(username).orElseThrow(()->
-//                new RuntimeException("Not Found User Name with username is: "+ username));
-//    }
-
+    public User findUserByUsername (String username){
+        return userRepository.findByUsername(username);
+    }
+    public User findUserById(Long id){
+        return userRepository.findById(id).orElseThrow(()->
+                new RuntimeException("Not found User with id: " +id));
+    }
     public User createUser(UserRequest request){
         User entity= userMapper.mapCreateRequestToEntity(request);
         Role userRole = roleRepository.findRoleByName(SystemRole.USER);
@@ -37,6 +38,14 @@ public class UserService {
         return userRepository.save(entity);
     }
 
+    public void deleteUser(Long id) {
+        User entity = findUserById(id);
+        userRepository.delete(entity);
+    }
 
-
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username);
+        return new SecurityUserDetails(user);
+    }
 }

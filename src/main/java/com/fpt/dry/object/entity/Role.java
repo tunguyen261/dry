@@ -17,6 +17,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class Role {
 
+
     @Id
     private Long id;
 
